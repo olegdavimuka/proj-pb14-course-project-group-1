@@ -4,3 +4,5 @@
 3. Olena Babych
 5. Tetiana Golovchenko
 6. Виталий Сердитов
+
+[Docker instalation](docs/how_install_docker.md)
