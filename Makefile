@@ -1,5 +1,11 @@
 bootstrap:
-	docker build --file docker/local.Dockerfile --pull --tag bot .
+	docker build --file docker/local.Dockerfile --pull --tag bot:local .
 
-up: 
-	docker run bot
+up: bootstrap
+	docker compose up
+
+down: 
+	docker compose down
+
+shell:
+	docker compose run --rm bot bash
