@@ -1,6 +1,3 @@
-import os
-import requests
-import aiogram
 import psycopg2
 
 if __name__ == "__main__":
@@ -13,7 +10,7 @@ if __name__ == "__main__":
             """
             CREATE TABLE IF NOT EXISTS working_test(
                 id serial PRIMARY KEY,
-	            test_data VARCHAR ( 50 ) NOT NULL
+                test_data VARCHAR ( 50 ) NOT NULL
             );
             """
         )
@@ -28,4 +25,3 @@ if __name__ == "__main__":
             assert row[0] == "DB connections is working"
 
     print("Bot is working")
-

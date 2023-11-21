@@ -16,6 +16,7 @@ psycopg2-binary = "^2.9.9"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
+
 [tool.black]
 line-length = 79
 include = '\.pyi?$'
