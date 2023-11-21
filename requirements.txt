@@ -1,4 +1,0 @@
-aiogram==2.23.1
-python-dotenv==0.19.0
-requests==2.31.0
-openai==0.28.0
