@@ -1,8 +1,9 @@
 import psycopg2
+from os import environ
 
 if __name__ == "__main__":
     conn = psycopg2.connect(
-        database="bot_data", user="admin", host="db", password="password", port=5432
+        database=environ.get("PG_DB_NAME"), user=environ.get("PG_USER"), host="db", password=environ.get("PG_USER_PASSWORD"), port=5432
     )
 
     with conn.cursor() as cursor:
