@@ -1,5 +1,6 @@
 bootstrap:
 	docker build --file docker/local.Dockerfile --pull --tag bot:local .
+	docker compose run --rm bot alembic upgrade head
 
 up: bootstrap
 	docker compose up
