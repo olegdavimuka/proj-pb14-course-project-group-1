@@ -27,6 +27,7 @@ target_metadata = Base.metadata
 # ... etc.
 database_url = environ.get("PG_DB_URL")
 
+
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode.
 
