@@ -1,5 +1,5 @@
 from sqlalchemy import Column, String, Integer, ForeignKey, Float
-from .models import Base
+from .base import Base
 
 
 class Feedback(Base):

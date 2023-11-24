@@ -1,1 +1,1 @@
-from constants import UserStatus
+from .user import UserStatus
