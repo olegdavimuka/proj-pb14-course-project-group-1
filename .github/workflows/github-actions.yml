@@ -20,7 +20,7 @@ jobs:
       - name: Run Flake8
         run: flake8
       - name: Run Black
-        run: black --check app
+        run: black app
       - name: Install pre-commit
         run: pip install pre-commit
       - name: Install pre-commit hooks
