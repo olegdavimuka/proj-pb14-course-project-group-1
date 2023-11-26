@@ -1,5 +1,14 @@
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Time, String, Integer, LargeBinary, Float, func, ForeignKey
+from sqlalchemy import (
+    Column,
+    Time,
+    String,
+    Integer,
+    LargeBinary,
+    Float,
+    func,
+    ForeignKey,
+)
 from sqlalchemy.orm import relationship
 
 
@@ -31,14 +40,15 @@ class Goals(Base):
 
     meet_goal_id = Column(Integer, primary_key=True)
     goal = Column(String(20))
-    user_id = Column(Integer, ForeignKey('users.user_id'))
+    user_id = Column(Integer, ForeignKey("users.user_id"))
+
 
 class Hobby(Base):
     __tablename__ = "hobbies"
 
     hobby_id = Column(Integer, primary_key=True)
     hobby = Column(String(20))
-    user_id = Column(Integer, ForeignKey('users.user_id'))
+    user_id = Column(Integer, ForeignKey("users.user_id"))
 
 
 class Proposal(Base):
@@ -48,8 +58,8 @@ class Proposal(Base):
     proposed_user_id = Column(Integer)
     status = Column(String)
     answer_time = Column(Integer)
-    user_id = Column(Integer, ForeignKey('users.user_id'))
-    proposed_user_id = Column(Integer, ForeignKey('users.user_id'))
+    user_id = Column(Integer, ForeignKey("users.user_id"))
+    proposed_user_id = Column(Integer, ForeignKey("users.user_id"))
 
 
 class Feedback(Base):
@@ -59,6 +69,5 @@ class Feedback(Base):
     reviewed_user_id = Column(Integer)
     review = Column(String)
     meet_rating = Column(Float)
-    user_id = Column(Integer, ForeignKey('users.user_id'))
-    reviewed_user_id = Column(Integer, ForeignKey('users.user_id'))
-
+    user_id = Column(Integer, ForeignKey("users.user_id"))
+    reviewed_user_id = Column(Integer, ForeignKey("users.user_id"))

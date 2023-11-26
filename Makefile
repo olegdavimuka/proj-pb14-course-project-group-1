@@ -5,7 +5,7 @@ bootstrap:
 up: bootstrap
 	docker compose up
 
-down: 
+down:
 	docker compose down
 
 shell:
