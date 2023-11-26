@@ -20,7 +20,7 @@ jobs:
     - name: Run Flake8
       run: flake8
     - name: Run Black
-      run: black --check app.
+      run: black --check app
     - name: Install pre-commit hooks
     # Install pre-commit hooks, including code checking and formatting.
       run: pre-commit install --install-hooks
