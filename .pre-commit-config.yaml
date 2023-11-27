@@ -5,7 +5,7 @@ repos:
     -   id: check-added-large-files
     -   id: check-yaml
         args: ['--exclude', 'docker-compose.yml']
-        files: '^$'  # Этот шаблон соответствует пустой строке (т.е., всем файлам)
+        files: '^$'
 -   repo: https://github.com/psf/black
     rev: 23.11.0
     hooks:
