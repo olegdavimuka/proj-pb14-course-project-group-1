@@ -7,4 +7,4 @@ class Hobby(Base):
 
     hobby_id = Column(Integer, primary_key=True)
     hobby = Column(String(20))
-    user_id = Column(Integer, ForeignKey('users.user_id'))
+    user_id = Column(Integer, ForeignKey("users.user_id"))

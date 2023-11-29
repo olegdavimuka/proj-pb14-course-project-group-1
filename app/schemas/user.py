@@ -13,4 +13,3 @@ class User(BaseModel):
     description: str | None
     status: UserStatus
     raiting: float = 5.0
-

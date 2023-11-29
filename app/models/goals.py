@@ -7,4 +7,4 @@ class Goals(Base):
 
     meet_goal_id = Column(Integer, primary_key=True)
     goal = Column(String(20))
-    user_id = Column(Integer, ForeignKey('users.user_id'))
+    user_id = Column(Integer, ForeignKey("users.user_id"))
