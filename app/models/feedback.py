@@ -9,5 +9,5 @@ class Feedback(Base):
     reviewed_user_id = Column(Integer)
     review = Column(String)
     meet_rating = Column(Float)
-    user_id = Column(Integer, ForeignKey('users.user_id'))
-    reviewed_user_id = Column(Integer, ForeignKey('users.user_id'))
+    user_id = Column(Integer, ForeignKey("users.user_id"))
+    reviewed_user_id = Column(Integer, ForeignKey("users.user_id"))

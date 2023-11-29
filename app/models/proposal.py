@@ -9,5 +9,5 @@ class Proposal(Base):
     proposed_user_id = Column(Integer)
     status = Column(String)
     answer_time = Column(Integer)
-    user_id = Column(Integer, ForeignKey('users.user_id'))
-    proposed_user_id = Column(Integer, ForeignKey('users.user_id'))
+    user_id = Column(Integer, ForeignKey("users.user_id"))
+    proposed_user_id = Column(Integer, ForeignKey("users.user_id"))
