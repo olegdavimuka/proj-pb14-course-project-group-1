@@ -7,7 +7,7 @@ sys.path.insert(
 
 import unittest
 from unittest.mock import patch
-from aiogram import types
+from aiogram import types, executor
 from app.telegram.bot import dp, send_welcome
 
 
