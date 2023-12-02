@@ -1,5 +1,5 @@
 from aiogram import Bot, Dispatcher, types
-from aiogram import executor as aiogram_executor
+from aiogram import executor
 from dotenv import load_dotenv, find_dotenv
 import os
 
@@ -19,4 +19,4 @@ async def send_welcome(message: types.Message):
 
 if __name__ == "__main__":
     # Bot start
-    aiogram_executor.start_polling(dp, skip_updates=True)
+    executor.start_polling(dp, skip_updates=True)
