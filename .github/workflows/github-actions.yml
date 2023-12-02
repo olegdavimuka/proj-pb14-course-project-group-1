@@ -44,6 +44,5 @@ jobs:
   
       - name: Run tests
         run: |
-          python -m unittest path/to/tests/test_bot.py
-
+          python -m unittest app.tests.test_bot.py
         working-directory: ${{ github.workspace }}
