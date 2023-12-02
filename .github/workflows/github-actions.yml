@@ -48,12 +48,7 @@ jobs:
           pip install aiogram==3.1.1
         working-directory: ${{ github.workspace }}
 
-      - name: Display sys.path
-        run: |
-          python -c "import sys; print(sys.path)"
-        working-directory: ${{ github.workspace }}
-
       - name: Run tests
         run: |
-          python -m unittest app.tests.test_bot
+          python -m unittest test_bot
         working-directory: ${{ github.workspace }}
