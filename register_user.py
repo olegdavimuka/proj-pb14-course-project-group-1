@@ -1,5 +1,5 @@
 from telegram import Update, ReplyKeyboardMarkup
-from sqlalchemy import Point, create_engine
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from os import environ
 import psycopg2
@@ -36,8 +36,8 @@ def wait_for_answer(func):
 def get_coordinates(city):
     geolocator = geopy.Nominatim(user_agent="my_app")
     location = geolocator.geocode(city)
-    coordinates = location.latitude, location.longitude
-    return coordinates
+    # coordinates = location.latitude, location.longitude
+    return location
 
 
 @wait_for_answer
@@ -68,7 +68,7 @@ def location():
                               reply_markup=reply_markup)
     answear = update.message.text
     if answear == 'Так':
-        answear = Point(update.message.location)
+        answear = update.message.location
     elif answear == 'Ні':
         update.message.reply_text("Введіть Ваше місто")
         answear = get_coordinates(update.message.text)
@@ -137,8 +137,9 @@ if already_users is None:
     if user_name is not False:
         user_born_year = born_year()
         if user_born_year is not False:
-            user_lacotaion = location()
-            if user_lacotaion is not False:
+            user_lacotaion_latitude = location().latitude
+            user_lacotaion_longitude = location().longitude
+            if user_lacotaion_latitude is not False:
                 user_domain = domain()
                 if user_domain is not False:
                     user_position = position()
