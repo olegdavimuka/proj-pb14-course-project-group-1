@@ -50,5 +50,5 @@ jobs:
 
       - name: Run tests
         run: |
-          python -m unittest app.tests.test_bot
+          python -m unittest discover -p '*_test.py'
         working-directory: ${{ github.workspace }}
