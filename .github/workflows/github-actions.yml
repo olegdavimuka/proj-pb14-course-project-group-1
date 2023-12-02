@@ -44,5 +44,5 @@ jobs:
   
       - name: Run tests
         run: |
-          python -m unittest discover -s path/to/tests -p '*_test.py'  # Путь к вашим тестам
+          python -m unittest discover -s path/to/tests -p 'test_bot.py'
         working-directory: ${{ github.workspace }}
