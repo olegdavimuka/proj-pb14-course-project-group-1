@@ -1,16 +1,18 @@
 import sys
 import os
+import unittest
+from unittest.mock import AsyncMock, MagicMock, patch
 
 sys.path.insert(
-    0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+    0, os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 )
-import unittest
-from unittest.mock import AsyncMock, MagicMock
+
 from aiogram import types
-from app.telegram.bot import dp, send_welcome
+from app.telegram.bot import send_welcome
 
 
 class TestSendWelcome(unittest.IsolatedAsyncioTestCase):
+    @patch("aiogram.utils.executor", MagicMock())
     async def test_send_welcome(self):
         message = types.Message(
             message_id=1,
