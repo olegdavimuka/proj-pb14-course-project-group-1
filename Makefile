@@ -10,3 +10,10 @@ down:
 
 shell:
 	docker compose run --rm bot bash
+
+lint:
+	flake8 app
+	black --check app
+
+fmt:
+	black app
