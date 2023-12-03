@@ -50,5 +50,6 @@ jobs:
 
       - name: Run tests
         run: |
-          python -m unittest app.tests.test_bot
+          pip install pytest pytest-asyncio
+          pytest app/tests/test_bot.py
         working-directory: ${{ github.workspace }}
