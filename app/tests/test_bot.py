@@ -4,28 +4,21 @@ import os
 sys.path.insert(
     0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 )
-
-import unittest
-from unittest.mock import patch
+import pytest
 from aiogram import types
 from app.telegram.bot import dp, send_welcome
 
 
-class TestYourBot(unittest.TestCase):
-    @patch("aiogram.types.Message")
-    @patch("aiogram.types.Message.reply")
-    async def test_send_welcome(self, mock_reply, mock_message):
-        user_message = types.Message(
-            message_id=1,
-            chat=types.Chat(id=1, type="private"),
-            from_user=types.User(id=1, is_bot=False, first_name="Test"),
-        )
-        await send_welcome(user_message)
-        mock_reply.assert_called_once_with("Привiт! Я ваш телеграм-бот.")
+@pytest.mark.asyncio
+async def test_send_welcome(mocker):
+    user_message = types.Message(
+        message_id=1,
+        chat=types.Chat(id=1, type="private"),
+        from_user=types.User(id=1, is_bot=False, first_name="Test"),
+    )
 
-    def tearDown(self):
-        patch.stopall()
+    mock_reply = mocker.patch("aiogram.types.Message.reply")
 
+    await send_welcome(user_message)
 
-if __name__ == "__main__":
-    unittest.main()
+    mock_reply.assert_called_once_with("Привiт! Я ваш телеграм-бот.")
