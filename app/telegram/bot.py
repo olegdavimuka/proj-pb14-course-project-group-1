@@ -1,5 +1,5 @@
 from aiogram import Bot, Dispatcher, types
-from aiogram import executor
+from aiogram.utils import executor
 from dotenv import load_dotenv, find_dotenv
 import os
 
