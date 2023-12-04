@@ -12,4 +12,4 @@ class User(BaseModel):
     photo: bytes
     description: str | None
     status: UserStatus
-    raiting: float = 5.0
+    rating: float = 5.0

@@ -1,5 +1,6 @@
 from sqlalchemy import Column, String, Integer, ForeignKey, Float
-from .base import Base
+from db import Base
+from sqlalchemy.orm import relationship
 
 
 class Feedback(Base):
@@ -11,3 +12,7 @@ class Feedback(Base):
     meet_rating = Column(Float)
     user_id = Column(Integer, ForeignKey("users.user_id"))
     reviewed_user_id = Column(Integer, ForeignKey("users.user_id"))
+    user_relation = relationship("User", back_populates="proposals_relation")
+    reviewed_user_relation = relationship(
+        "User", back_populates="reviewed_feedback_relation"
+    )

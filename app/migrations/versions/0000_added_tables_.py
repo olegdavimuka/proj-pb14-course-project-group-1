@@ -1,8 +1,8 @@
-"""Added tables
+"""empty message
 
-Revision ID: 0000
-Revises:
-Create Date: 2023-11-22 20:07:51.571503
+Revision ID: 0000_added_tables
+Revises: 
+Create Date: 2023-12-03 15:11:16.860498
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = "0000"
+revision: str = "0000_added_tables"
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -31,7 +31,7 @@ def upgrade() -> None:
         sa.Column("photo", sa.LargeBinary(), nullable=True),
         sa.Column("description", sa.String(), nullable=True),
         sa.Column("status", sa.String(), nullable=True),
-        sa.Column("raiting", sa.Float(), nullable=True),
+        sa.Column("rating", sa.Float(), nullable=True),
         sa.PrimaryKeyConstraint("user_id"),
     )
     op.create_table(
