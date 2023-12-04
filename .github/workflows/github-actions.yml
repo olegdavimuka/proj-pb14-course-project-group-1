@@ -26,6 +26,6 @@ jobs:
 
     - name: Run code quality checks
       run: |
-        flake8 app
-        black --check app
+        flake8 app --max-line-length 120
+        black --check app --line-length 120
       working-directory: ${{ github.workspace }}

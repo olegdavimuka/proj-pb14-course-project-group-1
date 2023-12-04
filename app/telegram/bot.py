@@ -1,7 +1,7 @@
-from aiogram import Bot, Dispatcher, types
-from aiogram import executor
-from dotenv import load_dotenv, find_dotenv
 import os
+
+from aiogram import Bot, Dispatcher, executor, types
+from dotenv import find_dotenv, load_dotenv
 
 load_dotenv(find_dotenv())
 

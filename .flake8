@@ -1,8 +1,0 @@
-# config Flake8
-# pip install flake8==6.1.0
-# pip install pre-commit==3.5.0
-
-[flake8]
-max-line-length = 120
-exclude = .git,__pycache__,venv
-extend-ignore = E501, E503, F401, E402, W293, W291, E128, E122, W292, E261, W391

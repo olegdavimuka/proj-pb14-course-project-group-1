@@ -6,14 +6,16 @@ up: bootstrap
 	docker compose up
 
 down:
-	docker compose down
+	docker compose down --volumes
 
 shell:
-	docker compose run --rm bot bash
+	docker compose run --rm --remove-orphans --build bot bash
 
 lint:
-	flake8 app
-	black --check app
+	docker compose run --rm bot bash ops/lint.sh
 
 fmt:
-	black app
+	docker compose run --rm --volume ./app/:/usr/src/app/app/ bot bash ops/fmt.sh
+
+test:
+	docker compose run --rm --volume ./app/:/usr/src/app/app/ bot pytest app/tests/

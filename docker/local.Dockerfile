@@ -10,6 +10,6 @@ RUN pip install poetry==1.7.1
 
 RUN poetry install
 
-COPY app/ .
+COPY . .
 
-CMD [ "python", "./app.py" ]
+CMD [ "python", "./app/app.py" ]
