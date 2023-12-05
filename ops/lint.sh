@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo -e "\nRuff Checks"
 ruff check app/
 echo -e "\nRuff Format"
