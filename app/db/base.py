@@ -1,15 +1,16 @@
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 from os import environ
 
-Base = (
-    declarative_base()
-)  # TODO: better move to app/db, also there you maybe should add logic of session creation
-metadata = (
-    Base.metadata
-)  # TODO: better move to app/db, also there you maybe should add logic of session creation
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
-engine = create_engine(environ.get("PG_DB_URL"))
+Base = declarative_base()
+metadata = Base.metadata
+
+connection_str = environ.get("PG_DB_URL")
+if not connection_str:
+    raise OSError("PG_DB_URL is not set.")
+
+engine = create_engine(connection_str)
 conn = engine.connect()
 Session = sessionmaker(bind=engine)

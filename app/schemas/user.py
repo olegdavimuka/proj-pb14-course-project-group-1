@@ -1,5 +1,6 @@
 from pydantic import BaseModel
-from constants import UserStatus
+
+from app.constants import UserStatus
 
 
 class User(BaseModel):

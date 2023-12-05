@@ -1,0 +1,32 @@
+version: '3.1'
+
+services:
+
+  bot:
+    image: bot:ci
+    restart: always
+    container_name: bot-app
+    depends_on:
+        db:
+          condition: service_healthy
+    environment:
+      PG_DB_NAME: "bot_test"
+      PG_USER: "test"
+      PG_USER_PASSWORD: "test"
+      PG_DB_URL: "postgresql+psycopg2://test:test@db:5432/bot_test"
+      BOT_TOKEN: "mock-bot-token"
+      GPT_KEY=: "mock-gpt-key"
+
+  db:
+    image: postgres:16.1
+    restart: always
+    container_name: bot-db
+    healthcheck:
+      test: ["CMD", "pg_isready", "-d", "bot_test", "-U", "test"]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+    environment:
+      POSTGRES_USER: "test"
+      POSTGRES_PASSWORD: "test"
+      POSTGRES_DB: "bot_test"

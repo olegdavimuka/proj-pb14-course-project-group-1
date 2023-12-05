@@ -1,16 +1,17 @@
 repos:
--   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+-   repo: local
     hooks:
-    -   id: check-added-large-files
-    -   id: check-yaml
-        args: ['--exclude', 'docker-compose.yml']
-        files: '^$'
--   repo: https://github.com/psf/black
-    rev: 23.11.0
+    -   id: lint
+        name: lint
+        entry: docker compose run --rm --no-TTY bot bash ops/lint.sh
+        language: system
+        verbose: true
+        pass_filenames: false
+-   repo: local
     hooks:
-    -   id: black
--   repo: https://github.com/PyCQA/flake8
-    rev: 6.1.0
-    hooks:
-    -   id: flake8
+    -   id: test
+        name: test
+        entry: docker compose run --rm --no-TTY bot pytest app/tests/
+        language: system
+        verbose: true
+        pass_filenames: false
