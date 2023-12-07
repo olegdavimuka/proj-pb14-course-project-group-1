@@ -3,6 +3,7 @@ FROM python:3.10.13-slim-bullseye
 WORKDIR /usr/src/app
 
 ENV POETRY_VIRTUALENVS_CREATE false
+ENV PYTHONPATH "${PYTHONPATH}:/usr/src/app/"
 
 COPY poetry.lock pyproject.toml ./
 
@@ -12,4 +13,4 @@ RUN poetry install
 
 COPY . .
 
-CMD [ "python", "./app/app.py" ]
+CMD [ "python", "./app/main.py" ]
