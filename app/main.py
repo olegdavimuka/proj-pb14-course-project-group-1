@@ -1,9 +1,17 @@
-from app.logs import logger
+import asyncio
+
+from sqlalchemy import select
+
+from app.db import async_session
+from app.models import User
 
 
-def main():
-    ...
+async def main():
+    async with async_session() as session:
+        result = await session.execute(select(User))
+        for user in result.scalars():
+            print(user.__dict__)
 
 
 if __name__ == "__main__":
-    logger.info("This is an info message from main.py")
+    asyncio.run(main())
