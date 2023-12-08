@@ -1,1 +1,1 @@
-from .user import UserStatus
+from .user import UserStatus  # noqa: F401

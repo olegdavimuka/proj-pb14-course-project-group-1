@@ -1,56 +1,25 @@
 name: Code Quality and Tests
 
 on:
+  push:
+    branches:
+      - '*'
   pull_request:
     branches:
       - '*'
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-
-      - name: Install Dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install flake8 black
-        working-directory: ${{ github.workspace }}
-
-      - name: Run code quality checks
-        run: |
-          flake8 app
-          black --check app
-        working-directory: ${{ github.workspace }}
-
   test:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-      
-      - name: Install Poetry
-        run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-          python3 -m pip install poetry
-          poetry config virtualenvs.create false
-        shell: bash
-      
-      - name: Install Dependencies and Run tests
-        run: |
-          poetry install
-          python3 -m unittest discover -s app/tests -p 'test_bot.py'
-        working-directory: ${{ github.workspace }}
+      - uses: actions/checkout@v2
+      - name: Build bot image
+        run: docker build --file docker/ci.Dockerfile --pull --tag bot:ci .
+      - name: Build the stack
+        run: docker-compose --file docker-compose-ci.yml up -d
+      - name: Lint
+        run: docker compose --file docker-compose-ci.yml run --rm --no-TTY bot ops/lint.sh
+      - name: Apply migrations
+        run: docker compose --file docker-compose-ci.yml run --rm bot alembic upgrade head
+      - name: Test
+        run: docker compose --file docker-compose-ci.yml run --rm --no-TTY bot pytest app/tests/

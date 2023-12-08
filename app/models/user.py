@@ -1,6 +1,7 @@
-from sqlalchemy import Column, String, Integer, LargeBinary, Float
+from sqlalchemy import Column, Float, Integer, LargeBinary, String
 from sqlalchemy.orm import relationship
-from db import Base
+
+from app.db import Base
 
 
 class User(Base):
@@ -17,16 +18,8 @@ class User(Base):
     status = Column(String)
     rating = Column(Float, default=5.0)
     hobby_relation = relationship("Hobby", back_populates="user_relation")
-    proposals_relation = relationship(
-        "Proposal", back_populates="user_relation"
-    )
-    proposed_user_relation = relationship(
-        "Proposal", back_populates="user_proposed_relation"
-    )
-    feedback_relation = relationship(
-        "Feedback", back_populates="user_relation"
-    )
-    reviewed_feedback_relation = relationship(
-        "Proposal", back_populates="reviewed_user_relation"
-    )
+    proposals_relation = relationship("Proposal", back_populates="user_relation")
+    proposed_user_relation = relationship("Proposal", back_populates="user_proposed_relation")
+    feedback_relation = relationship("Feedback", back_populates="user_relation")
+    reviewed_feedback_relation = relationship("Proposal", back_populates="reviewed_user_relation")
     meet_goal_relation = relationship("Goals", back_populates="user_relation")

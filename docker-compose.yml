@@ -5,18 +5,20 @@ services:
   bot:
     image: bot:local
     restart: always
+    container_name: bot-app
     env_file:
       - .env
     depends_on:
         db:
           condition: service_healthy
-          restart: true
+          restart: True
     volumes:
-      - ./app/:/usr/src/app
+      - ./:/usr/src/app
 
 
   adminer:
     image: adminer
+    container_name: bot-adminer
     restart: always
     ports:
       - 8080:8080
@@ -24,12 +26,13 @@ services:
   db:
     image: postgres:16.1
     restart: always
+    container_name: bot-db
     healthcheck:
       test: ["CMD", "pg_isready", "-d", "${PG_DB_NAME}", "-U", "${PG_USER}"]
       interval: 30s
       timeout: 60s
       retries: 5
-      start_period: 15s
+      start_period: "15s"
     environment:
       POSTGRES_USER: ${PG_USER}
       POSTGRES_PASSWORD: ${PG_USER_PASSWORD}
