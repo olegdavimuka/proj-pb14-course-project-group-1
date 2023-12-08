@@ -13,7 +13,7 @@ services:
       PG_DB_NAME: "bot_test"
       PG_USER: "test"
       PG_USER_PASSWORD: "test"
-      PG_DB_URL: "postgresql+psycopg2://test:test@db:5432/bot_test"
+      PG_DB_URL: "postgresql+asyncpg://test:test@db:5432/bot_test"
       BOT_TOKEN: "mock-bot-token"
       GPT_KEY=: "mock-gpt-key"
 
