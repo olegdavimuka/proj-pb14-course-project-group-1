@@ -23,5 +23,3 @@ jobs:
         run: docker compose --file docker-compose-ci.yml run --rm bot alembic upgrade head
       - name: Test
         run: docker compose --file docker-compose-ci.yml run --rm --no-TTY bot pytest app/tests/
-      - name:
-        run: docker compose --file docker-compose-ci.yml run --rm --no-TTY bot pytest app/tests/test_bot.py

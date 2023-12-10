@@ -1,5 +1,4 @@
 import asyncio
-from os import getenv
 import logging
 
 from aiogram import Bot, Dispatcher, types
@@ -7,8 +6,8 @@ from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart
 from aiogram.types import Message
 from aiogram.utils.markdown import hbold
+from app.config import BOT_TOKEN
 
-BOT_TOKEN = getenv("BOT_TOKEN")
 dp = Dispatcher()
 
 
