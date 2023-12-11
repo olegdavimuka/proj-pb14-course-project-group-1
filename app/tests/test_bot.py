@@ -5,6 +5,7 @@ from app.telegram.bot import main, dp
 
 
 @pytest.mark.asyncio
+@pytest.mark.timeout(1)
 async def test_command_start_handler():
     message = types.Message(
         chat=types.Chat(id=123, type="private"),
@@ -16,16 +17,14 @@ async def test_command_start_handler():
     dp.update_process_timeouts = 0.1
 
     with pytest.raises(asyncio.TimeoutError):
-        await asyncio.wait_for(
-            asyncio.gather(
-                main(),
-                dp.message_handlers.handlers[0][0](message),
-            ),
-            timeout=1,
+        await asyncio.gather(
+            main(),
+            dp.message_handlers.handlers[0][0](message),
         )
 
 
 @pytest.mark.asyncio
+@pytest.mark.timeout(1)
 async def test_echo_handler():
     message = types.Message(
         chat=types.Chat(id=123, type="private"),
@@ -37,10 +36,7 @@ async def test_echo_handler():
     dp.update_process_timeouts = 0.1
 
     with pytest.raises(asyncio.TimeoutError):
-        await asyncio.wait_for(
-            asyncio.gather(
-                main(),
-                dp.message_handlers.handlers[None][0](message),
-            ),
-            timeout=1,
+        await asyncio.gather(
+            main(),
+            dp.message_handlers.handlers[None][0](message),
         )
