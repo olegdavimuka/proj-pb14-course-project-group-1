@@ -8,6 +8,6 @@ class Hobby(Base):
     __tablename__ = "hobbies"
 
     hobby_id = Column(Integer, primary_key=True)
-    hobby = Column(String(20))
+    hobby = Column(String(30))
     user_id = Column(Integer, ForeignKey("users.user_id"))
     user_relation = relationship("User", back_populates="hobby_relation")
