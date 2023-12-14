@@ -53,7 +53,7 @@ def upgrade() -> None:
     op.create_table(
         "hobbies",
         sa.Column("hobby_id", sa.Integer(), nullable=False),
-        sa.Column("hobby", sa.String(length=20), nullable=True),
+        sa.Column("hobby", sa.String(length=30), nullable=True),
         sa.Column("user_id", sa.Integer(), nullable=True),
         sa.ForeignKeyConstraint(
             ["user_id"],
@@ -64,7 +64,7 @@ def upgrade() -> None:
     op.create_table(
         "meet_goals",
         sa.Column("meet_goal_id", sa.Integer(), nullable=False),
-        sa.Column("goal", sa.String(length=20), nullable=True),
+        sa.Column("goal", sa.String(length=50), nullable=True),
         sa.Column("user_id", sa.Integer(), nullable=True),
         sa.ForeignKeyConstraint(
             ["user_id"],
