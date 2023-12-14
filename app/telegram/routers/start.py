@@ -8,38 +8,59 @@ from app.constants import CITIES, DOMAINS, GOALS, UserStatus, HOBBIES  # noqa: F
 from app.telegram.forms import Form
 from aiogram.fsm.context import FSMContext
 from app.models import User, Goals, Hobby  # noqa: F401
+from app import schemas
 from app.db import async_session
 import aiogram.utils  # noqa: F401
 from aiogram.types import CallbackQuery
 
+from pydantic import ValidationError
+
 
 form_router = Router()
+
+
+def get_field_errors(model, data: dict, field: str) -> list:
+    field_errors = []
+    try:
+        model(**data)
+    except ValidationError as exc:
+        logger.info(exc.errors())
+        for error in exc.errors():
+            if field in error["loc"]:
+                field_errors.append(error)
+    return field_errors
 
 
 @form_router.message(CommandStart())
 async def command_start_handler(message: Message, state: FSMContext) -> None:
     await state.set_state(Form.name)
     await message.answer(
-        "Почнімо зі створення анкети. Введи своє ім'я:",
+        "Почнімо створення анкети. Введи своє ім'я:",
         reply_markup=ReplyKeyboardRemove(),
     )
 
 
 @form_router.message(Form.name)
 async def process_name(message: Message, state: FSMContext) -> None:
-    await state.update_data(name=message.text)
-    await state.set_state(Form.age)
-    await message.answer(
-        f"Приємно познайомитись, {message.text}!\nВкажи свій вік:",
-        reply_markup=ReplyKeyboardRemove(),
-    )
+    if get_field_errors(schemas.User, {"user_name": message.text}, "user_name"):
+        await message.answer("Нажаль щось пішло не так, давай спробуємо ще раз. Введи своє ім'я:")
+    else:
+        await state.update_data(name=message.text)
+        await state.set_state(Form.age)
+        await message.answer(
+            f"Приємно познайомитись, {message.text}!\nВкажи свій вік:",
+            reply_markup=ReplyKeyboardRemove(),
+        )
 
 
 @form_router.message(Form.age)
 async def process_age(message: Message, state: FSMContext) -> None:
-    await state.update_data(age=message.text)
-    await state.set_state(Form.photo)
-    await message.answer("Чудово, тепер надішли своє фото:")
+    if get_field_errors(schemas.User, {"user_age": message.text}, "user_age"):
+        await message.answer("Ой-ой, щось дивне, давай спробуємо ще раз. Вкажи свій вік:")
+    else:
+        await state.update_data(age=message.text)
+        await state.set_state(Form.photo)
+        await message.answer("Чудово, тепер надішли своє фото:")
 
 
 @form_router.message(Form.photo)
@@ -161,8 +182,8 @@ async def process_registration_end(message: Message, state: FSMContext) -> None:
             user_id=message.from_user.id,
             user_name=user_data["name"],
             user_age=int(user_data["age"]),
-            user_location=user_data["location"],
             domain=user_data["domain"],
+            user_location=user_data["location"],
             position=user_data["position"],
             photo=user_data["photo"],
             description=user_data["description"],
