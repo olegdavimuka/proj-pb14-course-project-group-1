@@ -12,7 +12,7 @@ class User(BaseModel):
     user_location: str
     domain: str
     position: str
-    photo: bytes
+    photo: str
     description: str | None
     status: UserStatus
     rating: float = 5.0

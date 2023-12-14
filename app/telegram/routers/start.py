@@ -1,4 +1,5 @@
 from aiogram import Router, html, Dispatcher, Bot, types  # noqa: I001, F401
+from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart
 from aiogram.types import Message, ReplyKeyboardRemove, InlineKeyboardMarkup, InlineKeyboardButton  # noqa: F401
 from aiogram.utils.keyboard import InlineKeyboardBuilder
@@ -12,9 +13,11 @@ from app import schemas
 from app.db import async_session
 import aiogram.utils  # noqa: F401
 from aiogram.types import CallbackQuery
+from sqlalchemy import select  # noqa: F401
 
 from pydantic import ValidationError
 
+from app.telegram.routers.utils import show_user_profile
 
 form_router = Router()
 
@@ -24,7 +27,6 @@ def get_field_errors(model, data: dict, field: str) -> list:
     try:
         model(**data)
     except ValidationError as exc:
-        logger.info(exc.errors())
         for error in exc.errors():
             if field in error["loc"]:
                 field_errors.append(error)
@@ -33,11 +35,16 @@ def get_field_errors(model, data: dict, field: str) -> list:
 
 @form_router.message(CommandStart())
 async def command_start_handler(message: Message, state: FSMContext) -> None:
-    await state.set_state(Form.name)
-    await message.answer(
-        "Почнімо створення анкети. Введи своє ім'я:",
-        reply_markup=ReplyKeyboardRemove(),
-    )
+    async with async_session() as session:
+        result = (await session.execute(select(User).where(User.user_id == message.from_user.id))).all()  # type: ignore
+    if not result:
+        await state.set_state(Form.name)
+        await message.answer(
+            "Почнімо створення анкети. Введи своє ім'я:",
+            reply_markup=ReplyKeyboardRemove(),
+        )
+    else:
+        await message.answer(text="З повененням! \nБажаєш переглянути свій профіль? Тисни /show_profile ")
 
 
 @form_router.message(Form.name)
@@ -66,18 +73,15 @@ async def process_age(message: Message, state: FSMContext) -> None:
 @form_router.message(Form.photo)
 async def process_photo(message: Message, state: FSMContext) -> None:
     if (photo_obj := message.photo) and message._bot:
-        photo_file = await message._bot.download(photo_obj[-1].file_id)
-
-        if photo_file:
-            await state.update_data(photo=photo_file.read())
-            await state.set_state(Form.location)
-            keyboard = [[InlineKeyboardButton(text=city, callback_data=city)] for city in CITIES]
-            inline_markup = InlineKeyboardMarkup(inline_keyboard=keyboard, resize_keyboard=True, selective=True)
-            builder = InlineKeyboardBuilder()
-            builder.attach(InlineKeyboardBuilder.from_markup(inline_markup))
-            builder.adjust(3, repeat=True)
-            await message.answer("Гарне фото, обери своє місто зі списку:", reply_markup=builder.as_markup())
-            return None
+        await state.update_data(photo=photo_obj[-1].file_id)
+        await state.set_state(Form.location)
+        keyboard = [[InlineKeyboardButton(text=city, callback_data=city)] for city in CITIES]
+        inline_markup = InlineKeyboardMarkup(inline_keyboard=keyboard, resize_keyboard=True, selective=True)
+        builder = InlineKeyboardBuilder()
+        builder.attach(InlineKeyboardBuilder.from_markup(inline_markup))
+        builder.adjust(3, repeat=True)
+        await message.answer("Гарне фото, обери своє місто зі списку:", reply_markup=builder.as_markup())
+        return None
     await message.answer("Потрібне фото, спробуй ще раз")
 
 
@@ -196,4 +200,10 @@ async def process_registration_end(message: Message, state: FSMContext) -> None:
         meet_goals = Goals(goal=user_data["goals"], user_id=message.from_user.id)
         session.add(meet_goals)
         await session.commit()
+        await show_user_profile(message, message.from_user.id)
     await state.clear()
+    await message.answer(
+        "<b>Твій профіль готовий ✨ </b>",
+        parse_mode=ParseMode.HTML,
+    )
+    await show_user_profile(message, message.from_user.id)
