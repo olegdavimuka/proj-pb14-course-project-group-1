@@ -1,5 +1,6 @@
 from aiogram.enums import ParseMode
 from aiogram.types import Message
+from pydantic import ValidationError
 from sqlalchemy import select
 
 from app.db import async_session  # noqa: F401, I001
@@ -40,3 +41,14 @@ async def show_user_profile(message: Message, user_id: int):
         parse_mode=ParseMode.HTML,
     )
     return user_data
+
+
+def get_field_errors(model, data: dict, field: str) -> list:
+    field_errors = []
+    try:
+        model(**data)
+    except ValidationError as exc:
+        for error in exc.errors():
+            if field in error["loc"]:
+                field_errors.append(error)
+    return field_errors

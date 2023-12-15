@@ -7,10 +7,10 @@ from app.db import async_session  # noqa: F401, I001
 from app.models import User
 from app.telegram.routers.utils import show_user_profile
 
-router = Router()
+show_router = Router()
 
 
-@router.message(Command("show_profile"))
+@show_router.message(Command("show_profile"))
 async def command_show_handler(message: Message) -> None:
     async with async_session() as session:
         result = (await session.execute(select(User).where(User.user_id == message.from_user.id))).all()  # type: ignore

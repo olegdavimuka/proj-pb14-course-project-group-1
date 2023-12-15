@@ -15,22 +15,10 @@ import aiogram.utils  # noqa: F401
 from aiogram.types import CallbackQuery
 from sqlalchemy import select  # noqa: F401
 
-from pydantic import ValidationError
 
-from app.telegram.routers.utils import show_user_profile
+from app.telegram.routers.utils import show_user_profile, get_field_errors
 
 form_router = Router()
-
-
-def get_field_errors(model, data: dict, field: str) -> list:
-    field_errors = []
-    try:
-        model(**data)
-    except ValidationError as exc:
-        for error in exc.errors():
-            if field in error["loc"]:
-                field_errors.append(error)
-    return field_errors
 
 
 @form_router.message(CommandStart())
