@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Float, Integer, LargeBinary, String
+from sqlalchemy import Column, Float, Integer, String
 from sqlalchemy.orm import relationship
 
 from app.db import Base
@@ -13,7 +13,7 @@ class User(Base):
     user_location = Column(String(30))
     domain = Column(String)
     position = Column(String)
-    photo = Column(LargeBinary)
+    photo = Column(String)
     description = Column(String, nullable=True)
     status = Column(String)
     rating = Column(Float, default=5.0)

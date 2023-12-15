@@ -27,7 +27,7 @@ def upgrade() -> None:
         sa.Column("user_location", sa.String(length=30), nullable=True),
         sa.Column("domain", sa.String(), nullable=True),
         sa.Column("position", sa.String(), nullable=True),
-        sa.Column("photo", sa.LargeBinary(), nullable=True),
+        sa.Column("photo", sa.String(), nullable=True),
         sa.Column("description", sa.String(), nullable=True),
         sa.Column("status", sa.String(), nullable=True),
         sa.Column("rating", sa.Float(), nullable=True),
