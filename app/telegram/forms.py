@@ -11,3 +11,15 @@ class Form(StatesGroup):
     position = State()
     goals = State()
     description = State()
+
+
+class Edit(StatesGroup):
+    edit_name = State()
+    edit_age = State()
+    edit_photo = State()
+    edit_location = State()
+    edit_hobbies = State()
+    edit_domain = State()
+    edit_position = State()
+    edit_goals = State()
+    edit_description = State()
