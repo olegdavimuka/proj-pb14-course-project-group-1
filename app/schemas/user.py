@@ -7,7 +7,9 @@ from app.constants import UserStatus
 
 class User(BaseModel):
     user_id: int
+    chat_id: int
     user_name: str
+    nickname: str
     user_age: int
     user_location: str
     domain: str

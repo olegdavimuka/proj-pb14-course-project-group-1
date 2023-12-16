@@ -22,7 +22,9 @@ def upgrade() -> None:
     op.create_table(
         "users",
         sa.Column("user_id", sa.Integer(), nullable=False),
+        sa.Column("chat_id", sa.Integer(), nullable=True),
         sa.Column("user_name", sa.String(length=60), nullable=True),
+        sa.Column("nickname", sa.String(length=60), nullable=True),
         sa.Column("user_age", sa.Integer(), nullable=True),
         sa.Column("user_location", sa.String(length=30), nullable=True),
         sa.Column("domain", sa.String(), nullable=True),
@@ -77,7 +79,8 @@ def upgrade() -> None:
         sa.Column("proposal_id", sa.Integer(), nullable=False),
         sa.Column("proposed_user_id", sa.Integer(), nullable=True),
         sa.Column("status", sa.String(), nullable=True),
-        sa.Column("answer_time", sa.Integer(), nullable=True),
+        sa.Column("user_answer_time", sa.Integer(), nullable=True),
+        sa.Column("proposed_user_answer_time", sa.Integer(), nullable=True),
         sa.Column("user_id", sa.Integer(), nullable=True),
         sa.ForeignKeyConstraint(
             ["proposed_user_id"],

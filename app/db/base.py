@@ -15,6 +15,6 @@ connection_str = environ.get("PG_DB_URL")
 if not connection_str:
     raise OSError("PG_DB_URL is not set.")
 
-engine = create_async_engine(connection_str, echo=True)
+engine = create_async_engine(connection_str)
 
 async_session = async_sessionmaker(engine, expire_on_commit=False)
