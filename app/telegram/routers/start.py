@@ -172,7 +172,9 @@ async def process_registration_end(message: Message, state: FSMContext) -> None:
     async with async_session() as session:
         user_info = User(
             user_id=message.from_user.id,
+            chat_id=message.chat.id,
             user_name=user_data["name"],
+            nickname=message.from_user.username,
             user_age=int(user_data["age"]),
             domain=user_data["domain"],
             user_location=user_data["location"],
@@ -188,7 +190,6 @@ async def process_registration_end(message: Message, state: FSMContext) -> None:
         meet_goals = Goals(goal=user_data["goals"], user_id=message.from_user.id)
         session.add(meet_goals)
         await session.commit()
-        await show_user_profile(message, message.from_user.id)
     await state.clear()
     await message.answer(
         "<b>Твій профіль готовий ✨ </b>",

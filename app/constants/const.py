@@ -9,6 +9,7 @@ class UserStatus(Enum):
 
 
 BOT_TOKEN = getenv("BOT_TOKEN")
+GPT_KEY = getenv("GPT_KEY")
 
 CITIES = [
     "Вінниця",
